@@ -299,13 +299,13 @@ docs/screenshots/04-transaction-explorer.png
 ## Known limitations
 
 - Fraud rings and compromised merchants are synthetically injected for the demo dataset; a production system would derive `is_fraud` from confirmed chargebacks, not generation logic.
-- `merchant_fraud_rate` at scoring time is a simple average (not leave-one-out like at training time) — a small, acceptable bias for an MVP.
+- `merchant_fraud_rate` at scoring time is a simple average (not leave-one-out like at training time) for an MVP.
 - The graph visualizations (pyvis) render client-side JS in an iframe; very large customer histories (hundreds of transactions) are capped at 150 rows for readability.
-- No authentication on the Streamlit app — anyone with the URL can view the dashboard (acceptable for a take-home demo, not for production).
+- No authentication on the Streamlit app — anyone with the URL can view the dashboard. 
 
 ## Future improvements
 
 - Move `merchant_fraud_rate` and similar aggregates into CognoDB as scheduled `SET`-based updates instead of recomputing at scoring time.
-- Add a feedback loop: let an analyst mark a transaction as confirmed fraud from the UI, writing back to `is_fraud` and retraining periodically.
+- Add a feedback loop: It let's an analyst mark a transaction as confirmed fraud from the UI, writing back to `is_fraud` and retraining periodically.
 - Expand the graph with `IP_ADDRESS` and `BILLING_ADDRESS` nodes for additional entity-resolution signals beyond shared devices.
 - Add authentication and role-based access before any real deployment.
