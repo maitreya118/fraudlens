@@ -6,6 +6,13 @@ sidebar to open Fraud Network or Transaction Explorer.
 """
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+_SRC_DIR = Path(__file__).resolve().parents[1] / "src"
+if str(_SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(_SRC_DIR))
+
 import pandas as pd
 import plotly.express as px
 import streamlit as st

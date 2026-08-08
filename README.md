@@ -272,11 +272,11 @@ Deployed on **Streamlit Community Cloud** (free tier):
 2. Go to [share.streamlit.io](https://share.streamlit.io), sign in with GitHub, click **New app**.
 3. Pick the repo/branch, set **Main file path** to `app/Home.py`.
 4. Under **Advanced settings → Secrets**, paste the contents of `.streamlit/secrets.toml.example` with your real `COGNODB_PASSWORD` filled in.
-5. Deploy. `runtime.txt` pins Python 3.11; `requirements.txt` installs the app itself (`-e .`) plus all dependencies.
+5. Deploy. `runtime.txt` pins Python 3.11; `requirements.txt` lists only third-party packages (no local editable install) so the build can't fail on packaging metadata.
 
-`app/Home.py` calls `sync_streamlit_secrets_to_env()` before anything else, copying Streamlit secrets into `os.environ` so the same `config.py` code path works identically locally (`.env`) and deployed (`st.secrets`).
+`app/Home.py` and every page insert `src/` onto `sys.path` as their first lines, before importing anything from `fraudlens` — so the app never depends on `pip install -e .` succeeding in whatever environment it's deployed to. `app/Home.py` also calls `sync_streamlit_secrets_to_env()` right after, copying Streamlit secrets into `os.environ` so the same `config.py` code path works identically locally (`.env`) and deployed (`st.secrets`).
 
-**Live demo:** _add your deployed URL here after deploying._
+**Live demo:** https://fraudlensgit-ajqs2yurbjxfrytnrv2vwt.streamlit.app/
 **Screen recording:** _add your recording link here._
 
 ## Security
