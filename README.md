@@ -1,12 +1,12 @@
 # 🕸️ Fraudlens
 
-**Graph-native fraud analytics.** XGBoost scores each transaction's fraud risk in isolation; CognoDB reveals the relationships — shared devices, compromised merchants, connected customers — that explain *why* a cluster of transactions is risky and who else is caught up in it.
+Graph-native fraud analytics. XGBoost scores each transaction's fraud risk in isolation; CognoDB reveals the relationships — shared devices, compromised merchants, connected customers — that explain why a cluster of transactions is risky and who else is caught up in it.
 
-Built for the Wexa AI take-home assignment: a small, complete application backed by a graph database (CognoDB, Neo4j-Bolt-compatible), demonstrating graph data modeling, engineering architecture, and a working end-to-end ML + graph pipeline.
+This is a small, complete application backed by a graph database (CognoDB, Neo4j-Bolt-compatible), demonstrating graph data modeling, engineering architecture, and a working end-to-end ML + graph pipeline.
 
 ---
 
-## Table of contents
+Table of contents
 
 - [The use case](#the-use-case)
 - [Why a graph database?](#why-a-graph-database)
@@ -41,8 +41,8 @@ An analyst opens the **Dashboard** to see the overall picture, drills into **Fra
 
 The interesting questions in fraud investigation are not "what does this row look like" — they're **"who else is connected, and how"**:
 
-- *"This customer's card was used fraudulently. What devices did they use, has any other customer used those same devices, and what did those customers buy?"* — that's a 3-to-4-hop walk across Customer → Transaction → Device → Transaction → Customer.
-- *"This merchant has an unusual fraud rate. Which other customers have been exposed to it, and are any of *them* connected to other risky merchants through a shared device?"* — same shape, one more hop.
+- *"This customer's card was used fraudulently. What devices did they use, has any other customer used those same devices, and what did those customers buy?" — that's a 3-to-4-hop walk across Customer → Transaction → Device → Transaction → Customer.
+- "This merchant has an unusual fraud rate. Which other customers have been exposed to it, and are any of *them* connected to other risky merchants through a shared device?" — same shape, one more hop.
 
 In a relational schema, each additional hop is a new hand-written `JOIN`, and the query most central to this use case — *"find devices used by more than one customer, where at least one of their transactions was fraudulent, then show what else those customers touched"* — needs a self-join with `GROUP BY … HAVING count(DISTINCT customer_id) > 1`, followed by *another* join to expand outward. It's the kind of query that gets slower and uglier every time an investigator asks "and then what?" It also doesn't scale: a 5-hop entity-resolution query becomes five nested joins, each one a fresh index-selection decision for the query planner.
 
