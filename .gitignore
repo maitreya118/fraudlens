@@ -1,0 +1,25 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Generated data & model artifacts (reproducible via scripts)
+data/generated/*.csv
+!data/generated/.gitkeep
+models/*.pkl
+models/*.json
+!models/.gitkeep
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
